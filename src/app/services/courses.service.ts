@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Course} from '../model/course';
 
@@ -25,6 +25,17 @@ export class CoursesService {
 
     return this.http.get<Course[]>('/api/courses', {params});
   }
+
+  saveCourse(course: Course) {
+    const headers = new HttpHeaders()
+      .set('X-Auth', 'userId');
+    // a custom http header say you want to add an authentication header that identifies the user
+    // so that the server can know if the operation is allowed or not.
+
+    return this.http.put(`api/courses/${course.id}`, course, {headers})
+      .subscribe(() => console.log('Courses saved'));
+  }
+
 }
 
 // create a service command

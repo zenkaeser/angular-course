@@ -1,18 +1,11 @@
 import {
-    AfterContentInit,
-    AfterViewInit,
     Component,
-    ContentChildren,
-    ElementRef,
     EventEmitter,
     Input,
     OnInit,
     Output,
-    QueryList,
-    ViewEncapsulation
 } from '@angular/core';
 import {Course} from '../model/course';
-import {CourseImageComponent} from '../course-image/course-image.component';
 
 @Component({
     selector: 'course-card',
@@ -20,7 +13,6 @@ import {CourseImageComponent} from '../course-image/course-image.component';
     styleUrls: ['./course-card.component.css']
 })
 export class CourseCardComponent implements OnInit {
-
     @Input()
     course: Course;
 
@@ -32,18 +24,15 @@ export class CourseCardComponent implements OnInit {
 
 
     constructor() {
-
     }
 
     ngOnInit() {
-
     }
 
 
-    onSaveClicked(description:string) {
-
+    onSaveClicked(description: string) {
         this.courseEmitter.emit({...this.course, description});
-
+        // spread operator, creates a copy of course, overrides only the description property
     }
 
 
