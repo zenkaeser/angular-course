@@ -2,6 +2,7 @@ import {Component, OnInit } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Course} from './model/course';
+import {CoursesService} from './services/courses.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,12 @@ export class AppComponent implements OnInit {
     // inject it in the class via the constructor.
     // declaring a reference to the service and Angular will know when it instantiates this class
     // that it needs to provide this dependency.
+
+    private coursesService: CoursesService,
+    // DEPENDENCY INJECTION
+    // the class does not create its own dependency such as the HttpClient rather it will be provided via the constructor
+    // this class depends on HttpClient because it needs internally in order to perform some of its functions
+    // so, the class will not create its dependencies it gets them injected to it via the constructor, this is Dependency Injection
   ) {
 
   }
