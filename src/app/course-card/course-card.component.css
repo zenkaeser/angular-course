@@ -27,6 +27,11 @@
 }
 
 :host-context(.salmon-theme) .course-card {
+  /* inside the () of host-context modifier is being made generic to the whole page
+     but the one that comes after the () of the host-context is still being made specific to the course-card component.
+     It allow us to style our component depending on the presence of CSS styles outside of the component itself */
+
+  /* In other words apply this style that has a class .salmon-theme and is inside this component with the class .course-card */
   background: lightsalmon;
 }
 
@@ -48,7 +53,8 @@
      This means that inside the course-card div(element) we are going to target any course-description element that is inside it
      independently if it belongs to the course-card component or not */
 
-  /* using ::ng-deep means that everything that comes after the ::ng-deep should not be made specific to the template */
+  /* using ::ng-deep means that everything that comes after the ::ng-deep should not be made specific to the template
+     this means that it becomes a global style */
 
   max-width: 360px;
   margin: 0 auto;
