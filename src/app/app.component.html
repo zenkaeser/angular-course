@@ -2,23 +2,25 @@
 
   <img class="logo"
        src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
-
 </div>
 
 <div>
-
   <div class="courses">
-
-    <course-card *ngFor="let course of courses"
+    <course-card *ngFor="let course of  courses$ | async"
                  [course]="course">
+      <!-- Async pipe, it is great for handling asynchronous data i.e. observables -->
+      <!-- Async pipe, going to allow us to implicitly subscribe to this observable from the template -->
+      <!-- It is going to allow us to build our components in a more reactive way-->
+
+      <!-- In general, if you are fetching data from the backend and you are receiving an observable in return
+       from a service in your service layer, it is recommended to pass the data to the template using the async pipe
+       because this has the big advantage that whenever the component gets destroyed,
+       the async pipe will take care of unsubscribing from the observable.
+       This is very helpful in order to prevent memory leaks. -->
 
       <course-image [src]="course.iconUrl"></course-image>
-
     </course-card>
-
   </div>
-
-
 </div>
 
 

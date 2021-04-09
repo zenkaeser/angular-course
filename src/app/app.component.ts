@@ -1,5 +1,7 @@
 import {Component, OnInit } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Course} from './model/course';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,9 @@ export class AppComponent implements OnInit {
   // Angular is going to invoke the constructor and pass the multiple dependencies
   // once it is done, Angular will then call ngOnInit() method.
 
-  courses;
+  courses$: Observable<Course[]>;
+  // annotate the variable with a $ sign to signify that it is an observable
+
 
   constructor(
     private http: HttpClient,
@@ -35,12 +39,8 @@ export class AppComponent implements OnInit {
     // this class has an immutability based api, if we want to change the parameters being passed (currently none)
     // we need to call the set method.
 
-    this.http.get('/api/courses', {params})
-      // an observable, we need to subscribe to it to trigger it.
-      .subscribe(
-        courses => this.courses = courses
-        // a success handler, a function that is going to give us back the value returned by the api call.
-      );
+    this.courses$ = this.http.get<Course[]>('/api/courses', {params});
+    // assign the http get request to an observable so that  you can access it on the template using async pipe
   }
 
 
