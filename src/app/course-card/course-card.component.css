@@ -2,6 +2,11 @@
 :host {
   display: block;
 }
+/* a CSS modifier, also ng-deep and host-context */
+/* this host selector allow us to target the host element itself with styles from within our component stylesheet
+   at run time the host syles are applied using the _nghost-c1, _nghost-c2, etc identifier that uniquely identifies
+   the component's host element. This means that the host element are isolated. They will not affect the rest of the page,
+   they will only affect the component's host element */
 
 :host.is-first {
   border-top: 2px solid grey;
