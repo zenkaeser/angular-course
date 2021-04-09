@@ -43,7 +43,13 @@
   font-weight: bold;
 }
 
-.course-card .course-description {
+.course-card ::ng-deep .course-description {
+  /* In order to style the elements that were projected we need to bypass view encapsulation mechanism.
+     This means that inside the course-card div(element) we are going to target any course-description element that is inside it
+     independently if it belongs to the course-card component or not */
+
+  /* using ::ng-deep means that everything that comes after the ::ng-deep should not be made specific to the template */
+
   max-width: 360px;
   margin: 0 auto;
   margin-top: 15px;
@@ -71,3 +77,5 @@
 /* Its this special content attributes that are going to enable the default view encapsulation mechanism */
 
 /* The elements projected with <NG-CONTENT> are going to get stamped by the identifier of the component from where they were created*/
+
+
