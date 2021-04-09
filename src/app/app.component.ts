@@ -1,9 +1,7 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {COURSES} from '../db-data';
-import {Course} from './model/course';
-import {CourseCardComponent} from './course-card/course-card.component';
-import {HighlightedDirective} from './directives/highlighted.directive';
+import {Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
+import {Course} from './model/course';
+import {CoursesService} from './services/courses.service';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +9,35 @@ import {Observable} from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  // in order to instantiate the Application Component Class,
+  // Angular is going to invoke the constructor and pass the multiple dependencies
+  // once it is done, Angular will then call ngOnInit() method.
+
+  courses$: Observable<Course[]>;
+  // annotate the variable with a $ sign to signify that it is an observable
 
 
-  courses = COURSES;
-
-  constructor() {
+  constructor(
+    private coursesService: CoursesService,
+    // DEPENDENCY INJECTION
+    // the class does not create its own dependency such as the HttpClient rather it will be provided via the constructor
+    // this class depends on HttpClient because it needs internally in order to perform some of its functions
+    // so, the class will not create its dependencies it gets them injected to it via the constructor, this is Dependency Injection
+  ) {
 
   }
 
   ngOnInit() {
+    // the best place to put some initialization logic such as triggering an HTTP backend call
+    // that is going to fetch the data that this component needs.
+    // a lifecycle hook that will be called by the Angular framework itself and not by us.
+
+    this.courses$ = this.coursesService.loadCourses();
   }
 
+  save(course: Course) {
+    this.coursesService.saveCourse(course);
+  }
 
 
 }
