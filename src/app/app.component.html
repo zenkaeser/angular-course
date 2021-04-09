@@ -8,6 +8,7 @@
 <!--de-sugared form of a stuctural directive-->
 <ng-template [ngIf]="courses[0]" let-course1>
 <!--  ngIf will be applied on the ng-template as an attribute directive -->
+<!--  in a sense, ngIf will then become an INPUT PROPERTY of this template -->
 <!--  course is a private variable of this template, if you don't assign anything to it,
       it will implicitly be assigned the value of the ngIf  -->
 
@@ -28,7 +29,11 @@
       (courseSelected)="onCourseSelected($event)"
       [course]="course"
     >
-        <course-image [src]="course.iconUrl"></course-image>
+        <course-image *ngxUnless="!course.iconUrl" [src]="course.iconUrl">
+          <!-- we are passing the condition to the ngxUnless directive, which becomes a PROPERTY in a de-sugared form
+               same as above example... -->
+
+        </course-image>
 
         <div class="course-description">
             {{ course.longDescription }}
