@@ -1,4 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Inject, Injector, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  Inject,
+  Injector,
+  OnInit,
+  Optional,
+  Self,
+  SkipSelf
+} from '@angular/core';
 import {Course} from './model/course';
 import {Observable} from 'rxjs';
 import {APP_CONFIG, AppConfig, CONFIG_TOKEN} from './config';
@@ -12,25 +23,10 @@ import {CourseTitleComponent} from './course-title/course-title.component';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
-    providers: [{
-      // adding our token to the dependency injection system
-
-      provide: CONFIG_TOKEN,
-      // means that we are providing this token
-
-      useFactory: () => APP_CONFIG,
-      // providing the value that is getting injected
-      // we can use useFactory method in order to create a function that would returns the value of the config value immediately
-      // simply returns the value of our config object
-
-      useValue: APP_CONFIG
-      // another property that we can use to pass value. This ig going to be the value injected whenever this token gets requested.
-    }]
-    // this provider here is not tree-shakeable, this means that if we remove the dependency in this application on the constructor and we
-    // reload the application, this configuration token is still added to the application bundle.
-    // check it using Chrome Dev tools and go to Sources tab, find CONFIG_TOKEN.
-
-    // To make it tree-shakeable, remove the providers property of this component and add it on the config.ts file instead.
+    providers: [
+      CoursesService,
+      // creating multiple copy of our service using the providers property
+    ]
 })
 export class AppComponent implements OnInit {
 
@@ -39,7 +35,15 @@ export class AppComponent implements OnInit {
     coursesTotal = this.courses.length;
 
     constructor(
-        private coursesService: CoursesService,
+        @Optional()private coursesService: CoursesService,
+        // marking this dependency as @Optional() means that it is not mandatory to be injected
+
+        @Self()private coursesService2: CoursesService,
+        // marking this dependency with @Self() means that this local copy is private to this component only and is not
+        // injected from somewhere else. So if this mark exist it can only come from the component itself.
+        // the dependency created here is still shared to its children.
+        // This also overrides the Dependency Injection Hierarchical system
+
         @Inject(CONFIG_TOKEN) private config: AppConfig,
         // injecting here our global configuration object
         // Dependency Injection system needs to know what token to associate to this AppConfig type that is because on the providers (above)

@@ -7,9 +7,13 @@ let counter = 0;
 
 
 @Injectable()
+// Dependency Injection is hierarchical, means that the instance of services created on the parent's will be shared to its children
+// But, the instance of the service from the children will not be shared to its parent.
+// no providedIn: 'root' property, means that we need to declare own copy of this service per component
+
 export class CoursesService {
 
-  id:number;
+  id: number;
 
   constructor(private http: HttpClient) {
 
