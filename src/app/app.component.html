@@ -5,7 +5,8 @@
 
 </div>
 
-<div>
+<div class="salmon-theme">
+  <div class="courses"> Test card > </div>
 
   <div class="courses">
 
@@ -13,6 +14,8 @@
                  [course]="course">
 
       <course-image [src]="course.iconUrl"></course-image>
+
+      <div class="course-description">{{course.longDescription}}</div>
 
     </course-card>
 

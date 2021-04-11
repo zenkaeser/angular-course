@@ -2,6 +2,11 @@
 :host {
   display: block;
 }
+/* a CSS modifier, also ng-deep and host-context */
+/* this host selector allow us to target the host element itself with styles from within our component stylesheet
+   at run time the host syles are applied using the _nghost-c1, _nghost-c2, etc identifier that uniquely identifies
+   the component's host element. This means that the host element are isolated. They will not affect the rest of the page,
+   they will only affect the component's host element */
 
 :host.is-first {
   border-top: 2px solid grey;
@@ -22,6 +27,11 @@
 }
 
 :host-context(.salmon-theme) .course-card {
+  /* inside the () of host-context modifier is being made generic to the whole page
+     but the one that comes after the () of the host-context is still being made specific to the course-card component.
+     It allow us to style our component depending on the presence of CSS styles outside of the component itself */
+
+  /* In other words apply this style that has a class .salmon-theme and is inside this component with the class .course-card */
   background: lightsalmon;
 }
 
@@ -38,7 +48,14 @@
   font-weight: bold;
 }
 
-.course-card .course-description {
+.course-card ::ng-deep .course-description {
+  /* In order to style the elements that were projected we need to bypass view encapsulation mechanism.
+     This means that inside the course-card div(element) we are going to target any course-description element that is inside it
+     independently if it belongs to the course-card component or not */
+
+  /* using ::ng-deep means that everything that comes after the ::ng-deep should not be made specific to the template
+     this means that it becomes a global style */
+
   max-width: 360px;
   margin: 0 auto;
   margin-top: 15px;
@@ -52,5 +69,19 @@
 .course-card.beginner {
   background: lightsalmon;
 }
+
+
+/* these styles are only specific to this component and does not affect the rest of the application
+   this feature is called 'View Encapsulation' - styles are encapsulated and only visible on a particular component view. */
+
+/* Angular when its instantiating our view is adding to every element this special attribute [_ngcontent-c0]
+   which is unique to this component. Each component will have a unique style identifier */
+
+/* Each component will have a different sequential number that is going to be used to produce this special attribute
+   that is then going to be applied to every element of the template */
+
+/* Its this special content attributes that are going to enable the default view encapsulation mechanism */
+
+/* The elements projected with <NG-CONTENT> are going to get stamped by the identifier of the component from where they were created*/
 
 
