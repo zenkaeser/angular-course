@@ -23,7 +23,8 @@ import {CourseTitleComponent} from '../course-title/course-title.component';
     exports: [
         CourseCardComponent,
         CourseImageComponent,
-        FilterByCategoryPipe
+        FilterByCategoryPipe,
+        HighlightedDirective
     ],
     providers: [CoursesService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
