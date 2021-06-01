@@ -5,23 +5,40 @@
 
 </div>
 
+<!--de-sugared form of a stuctural directive-->
+<ng-template [ngIf]="courses[0]" let-course1>
+<!--  ngIf will be applied on the ng-template as an attribute directive -->
+<!--  in a sense, ngIf will then become an INPUT PROPERTY of this template -->
+<!--  course is a private variable of this template, if you don't assign anything to it,
+      it will implicitly be assigned the value of the ngIf  -->
+
+  <div class="courses">
+    <course-card (courseSelected)="onCourseSelected($event)" [course]="course1">
+      <course-image [src]="course1.iconUrl" ></course-image>
+
+      <div class="course-description">{{ course1.longDescription }}</div>
+    </course-card>
+  </div>
+</ng-template>
 
 
 <div class="courses" *ngIf="courses[0] as course">
-
+  <!-- Structural directives use the star(*) syntax and they allow us to add or remove other elements from the page -->
+  <!-- * syntax is a shortcut for the above example -->
     <course-card
-            (courseSelected)="onCourseSelected($event)"
-                 [course]="course">
+      (courseSelected)="onCourseSelected($event)"
+      [course]="course"
+    >
+        <course-image *ngxUnless="!course.iconUrl" [src]="course.iconUrl">
+          <!-- we are passing the condition to the ngxUnless directive, which becomes a PROPERTY in a de-sugared form
+               same as above example... -->
 
-        <course-image [src]="course.iconUrl"></course-image>
+        </course-image>
 
         <div class="course-description">
             {{ course.longDescription }}
         </div>
-
     </course-card>
-
-
 </div>
 
 
